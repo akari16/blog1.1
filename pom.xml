@@ -47,6 +47,17 @@
 			<artifactId>commonmark-ext-gfm-tables</artifactId>
 			<version>0.10.0</version>
 		</dependency>
+		<!-- json插件 -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20140107</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
 
 		<!-- 分页插件 -->
 		<dependency>
@@ -164,5 +175,6 @@
 			</plugin>
 		</plugins>
 	</build>
+
 
 </project>

@@ -145,9 +145,9 @@
         onscroll             : function() {},
         onpreviewscroll      : function() {},
         
-        imageUpload          : false,
+        imageUpload          : true,
         imageFormats         : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-        imageUploadURL       : "",
+        imageUploadURL       : "/upload",
         crossDomainUpload    : false,
         uploadCallbackURL    : "",
         
@@ -4376,7 +4376,7 @@
 
             var userUnselect = function (obj) {
                 obj.addClass(classPrefix + "user-unselect").on("selectstart", function(event) { // selectstart for IE                        
-                    return false;
+                    return false; 
                 });
             };
 
