@@ -96,7 +96,9 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public DetailedBlog getDetailedBlog(Long id) {
+    	System.out.println(id);
         DetailedBlog detailedBlog = blogDao.getDetailedBlog(id);
+        System.out.println(detailedBlog);
         if (detailedBlog == null) {
             throw new NotFountException("该博客不存在");
         }

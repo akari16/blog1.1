@@ -53,7 +53,7 @@ public class IndexController {
 
 	@GetMapping("/")
 	public String index(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum) {
-		PageMethod.startPage(pageNum, 6);
+		PageMethod.startPage(pageNum, 10);
 		List<FirstPageBlog> allFirstPageBlog = blogService.getAllFirstPageBlog();
 		/*
 		 * System.out.println("num:"+allFirstPageBlog.size()); for (FirstPageBlog
