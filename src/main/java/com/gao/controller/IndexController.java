@@ -100,7 +100,7 @@ public class IndexController {
 
 	@ResponseBody
 	@PostMapping("/upload") // 等价于 @RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public JSONObject uplaod(HttpServletRequest req, @RequestParam("editormd-image-file") MultipartFile file, Model m,
+	public String uplaod(HttpServletRequest req, @RequestParam("editormd-image-file") MultipartFile file, Model m,
 			MultipartFile attach) {// 1.
 		JSONObject jsonObject = new JSONObject(); // 接受上传的文件
 
@@ -114,7 +114,8 @@ public class IndexController {
 			System.out.println(req.getServletContext().getRealPath(""));
 			System.out.println("111" + System.getProperty("user.dir"));
 			// 3.通过req.getServletContext().getRealPath("") 获取当前项目的真实路径，然后拼接前面的文件名
-			String destFileName = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\upload\\" + fileName;
+			String destFileName = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\upload\\"
+					+ fileName;
 			// 4.第一次运行的时候，这个文件所在的目录往往是不存在的，这里需要创建一下目录（创建到了webapp下uploaded文件夹下）
 			File destFile = new File(destFileName);
 			destFile.getParentFile().mkdirs();
@@ -122,22 +123,23 @@ public class IndexController {
 			file.transferTo(destFile);
 			// 6.把文件名放在model里，以便后续显示用
 			System.out.println(destFileName);
-			m.addAttribute("fileName", fileName);
+			m.addAttribute("fileName", destFileName);
 			jsonObject.put("success", 1);
 			jsonObject.put("message", "上传成功");
-			jsonObject.put("url", "/");
+			jsonObject.put("url", destFileName);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			System.out.println(e);
-			jsonObject.put("success", 0);
+			jsonObject.put("fail", 0);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println(e);
-			jsonObject.put("success", 0);
+			jsonObject.put("fail", 0);
 		}
-
-		return jsonObject;
+		System.out.println(jsonObject);
+		System.out.println(jsonObject.toString());
+		return jsonObject.toString();
 	}
 
 }
