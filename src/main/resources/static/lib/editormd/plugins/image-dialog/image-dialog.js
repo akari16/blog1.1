@@ -46,30 +46,56 @@
                     action += "&callback=" + settings.uploadCallbackURL + "&dialog_id=editormd-image-dialog-" + guid;
                 }
 
-                var dialogContent = ( (settings.imageUpload) ? "<form action=\"" + action +"\" target=\"" + iframeName + "\" method=\"post\" enctype=\"multipart/form-data\" class=\"" + classPrefix + "form\">" : "<div class=\"" + classPrefix + "form\">" ) +
-                                        ( (settings.imageUpload) ? "<iframe name=\"" + iframeName + "\" id=\"" + iframeName + "\" guid=\"" + guid + "\"></iframe>" : "" ) +
-                                        "<label>" + imageLang.url + "</label>" +
-                                        "<input type=\"text\" data-url />" + (function(){
-                                            return (settings.imageUpload) ? "<div class=\"" + classPrefix + "file-input\">" +
-                                                                                "<input type=\"file\" name=\"" + classPrefix + "image-file\" accept=\"image/*\" />" +
-                                                                                "<input type=\"submit\" value=\"" + imageLang.uploadButton + "\" />" +
-                                                                            "</div>" : "";
-                                        })() +
-                                        "<br/>" +
-                                        "<label>" + imageLang.alt + "</label>" +
-                                        "<input type=\"text\" value=\"" + selection + "\" data-alt />" +
-                                        "<br/>" +
-                                        "<label>" + imageLang.link + "</label>" +
-                                        "<input type=\"text\" value=\"http://\" data-link />" +
-                                        "<br/>" +
-                                    ( (settings.imageUpload) ? "</form>" : "</div>");
+                //注释的是官方的写法
+                // var dialogContent = ( (settings.imageUpload) ? "<form action=\"" + action +"\" target=\"" + iframeName + "\" method=\"post\" enctype=\"multipart/form-data\" class=\"" + classPrefix + "form\">" : "<div class=\"" + classPrefix + "form\">" ) +
+                //                         ( (settings.imageUpload) ? "<iframe name=\"" + iframeName + "\" id=\"" + iframeName + "\" guid=\"" + guid + "\"></iframe>" : "" ) +
+                //                         "<label>" + imageLang.url + "</label>" +
+                //                         "<input type=\"text\" data-url />" + (function(){
+                //                             return (settings.imageUpload) ? "<div class=\"" + classPrefix + "file-input\">" +
+                //                                                                 "<input type=\"file\" name=\"" + classPrefix + "image-file\" accept=\"image/*\" />" +
+                //                                                                 "<input type=\"submit\" value=\"" + imageLang.uploadButton + "\" />" +
+                //                                                             "</div>" : "";
+                //                         })() +
+                //                         "<br/>" +
+                //                         "<label>" + imageLang.alt + "</label>" +
+                //                         "<input type=\"text\" value=\"" + selection + "\" data-alt />" +
+                //                         "<br/>" +
+                //                         "<label>" + imageLang.link + "</label>" +
+                //                         "<input type=\"text\" value=\"http://\" data-link />" +
+                //                         "<br/>" +
+                //                     ( (settings.imageUpload) ? "</form>" : "</div>");
 
+
+
+                //这是我个人写法
+                var dialogContent = ( (settings.imageUpload) ? "<form action=\"#\" target=\"" + iframeName + "\" method=\"post\" enctype=\"multipart/form-data\" class=\"" + classPrefix + "form\">" : "<div class=\"" + classPrefix + "form\">" ) +
+                    ( (settings.imageUpload) ? "<iframe name=\"" + iframeName + "\" id=\"" + iframeName + "\" guid=\"" + guid + "\"></iframe>" : "" ) +
+                    "<label>" + imageLang.url + "</label>" +
+                    "<input type=\"text\" data-url />" + (function(){
+                        return (settings.imageUpload) ? "<div class=\"" + classPrefix + "file-input\">" +
+                            "<input type=\"file\" name=\"" + classPrefix + "image-file\" id=\"" + classPrefix + "image-file\" accept=\"image/*\" />" +
+                            "<input type=\"submit\" value=\"" + imageLang.uploadButton + "\" />" +
+                            "</div>" : "";
+                    })() +
+                    "<br/>" +
+                    "<label>" + imageLang.alt + "</label>" +
+                    "<input type=\"text\" value=\"" + selection + "\" data-alt />" +
+                    "<br/>" +
+                    "<label>" + imageLang.link + "</label>" +
+                    "<input type=\"text\" value=\"http://\" data-link />" +
+                    "<br/>" +
+                    ( (settings.imageUpload) ? "</form>" : "</div>");
+
+
+
+
+                //这是官方的，不知道为什么，官方把它给注释掉了
                 //var imageFooterHTML = "<button class=\"" + classPrefix + "btn " + classPrefix + "image-manager-btn\" style=\"float:left;\">" + imageLang.managerButton + "</button>";
 
                 dialog = this.createDialog({
                     title      : imageLang.title,
-                    width      : (settings.imageUpload) ? 700 : 380,
-                    height     : "auto",
+                    width      : (settings.imageUpload) ? 465 : 380,
+                    height     : 254,
                     name       : dialogName,
                     content    : dialogContent,
                     mask       : settings.dialogShowMask,
@@ -108,12 +134,18 @@
 
                             this.hide().lockScreen(false).hideMask();
 
+                            //删除对话框
+                            this.remove();
+
                             return false;
                         }],
 
                         cancel : [lang.buttons.cancel, function() {
                             this.hide().lockScreen(false).hideMask();
 
+                            //删除对话框
+                            this.remove();
+                            
                             return false;
                         }]
                     }
@@ -129,7 +161,7 @@
 
 				fileInput.bind("change", function() {
 					var fileName  = fileInput.val();
-					var isImage   = new RegExp("(\\.(" + settings.imageFormats.join("|") + "))$"); // /(\.(webp|jpg|jpeg|gif|bmp|png))$/
+					var isImage   = new RegExp("(\\.(" + settings.imageFormats.join("|") + "))$", "i"); // /(\.(webp|jpg|jpeg|gif|bmp|png))$/
 
 					if (fileName === "")
 					{
@@ -149,30 +181,67 @@
 
                     var submitHandler = function() {
 
+
                         var uploadIframe = document.getElementById(iframeName);
 
                         uploadIframe.onload = function() {
 
                             loading(false);
 
-                            var body = (uploadIframe.contentWindow ? uploadIframe.contentWindow : uploadIframe.contentDocument).document.body;
-                            var json = (body.innerText) ? body.innerText : ( (body.textContent) ? body.textContent : null);
-                            json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
+                            //注释的是官方写法
+                            // var body = (uploadIframe.contentWindow ? uploadIframe.contentWindow : uploadIframe.contentDocument).document.body;
+                            // var json = (body.innerText) ? body.innerText : ( (body.textContent) ? body.textContent : null);
+                            //
+                            // json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
+                            //
+                            // if(!settings.crossDomainUpload)
+                            // {
+                            //   if (json.success === 1)
+                            //   {
+                            //       dialog.find("[data-url]").val(json.url);
+                            //   }
+                            //   else
+                            //   {
+                            //       alert(json.message);
+                            //   }
+                            // }
+                            //
+                            // return false;
 
-                            if(!settings.crossDomainUpload)
-                            {
-                              if (json.success === 1)
-                              {
-                                  dialog.find("[data-url]").val(json.url);
-                              }
-                              else
-                              {
-                                  alert(json.message);
-                              }
-                            }
+
+                            //这是我个人写法
+                            var formData = new FormData();
+                            formData.append("editormd-image-file",$("#editormd-image-file")[0].files[0]);
+                            var action = settings.imageUploadURL + (settings.imageUploadURL.indexOf("?") >= 0 ? "&" : "?") + "guid=" + guid;
+
+                            $.ajax({
+                                type:"post",
+                                url:action,
+                                data:formData,
+                                dataType:"json",
+                                async:false,
+                                processData : false, // 使数据不做处理
+                                contentType : false, // 不要设置Content-Type请求头
+                                success:function(data){
+                                    // 成功拿到结果放到这个函数 data就是拿到的结果
+                                    console.log(data);
+                                    if(data.success == 1){
+                                        console.log(data.message);
+                                        dialog.find("[data-url]").val(data.url);
+                                    }else{
+                                        alert(data.message);
+                                    }
+                                },
+                            });
 
                             return false;
                         };
+
+
+
+
+
+
                     };
 
                     dialog.find("[type=\"submit\"]").bind("click", submitHandler).trigger("click");

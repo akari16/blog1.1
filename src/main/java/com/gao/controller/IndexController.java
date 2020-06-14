@@ -127,7 +127,7 @@ public class IndexController {
 			m.addAttribute("fileName", destFileName);
 			jsonObject.put("success", 1);
 			jsonObject.put("message", "上传成功");
-			jsonObject.put("url", destFileName);
+			jsonObject.put("url", "\\src\\main\\resources\\static\\upload\\" + fileName);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
