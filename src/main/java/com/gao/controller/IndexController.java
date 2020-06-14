@@ -3,6 +3,7 @@ package com.gao.controller;
 import com.gao.dto.DetailedBlog;
 import com.gao.dto.FirstPageBlog;
 import com.gao.dto.RecommendBlog;
+import com.gao.dto.ShowBlog;
 import com.gao.pojo.Comment;
 import com.gao.pojo.Tag;
 import com.gao.pojo.Type;
@@ -91,7 +92,7 @@ public class IndexController {
 
 	@GetMapping("/blog/{id}")
 	public String blog(@PathVariable Long id, Model model) {
-		DetailedBlog detailedBlog = blogService.getDetailedBlog(id);
+		ShowBlog detailedBlog = blogService.getBlogById(id);
 		List<Comment> comments = commentService.listCommentByBlogId(id);
 		model.addAttribute("comments", comments);
 		model.addAttribute("blog", detailedBlog);

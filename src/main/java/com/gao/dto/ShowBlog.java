@@ -5,7 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import com.gao.pojo.Tag;
 
 
 /**
@@ -18,6 +22,8 @@ import java.util.Date;
 public class ShowBlog {
 
     private Long id;
+    private String avatar;
+    private String nickname;
     private boolean published;
     private String flag;
     private String title;
@@ -31,5 +37,8 @@ public class ShowBlog {
     private boolean appreciation;
     private boolean commentabled;
     private Date updateTime;
+    private Integer views;
+    
+    private List<Tag> tags = new ArrayList<>();
 
 }
