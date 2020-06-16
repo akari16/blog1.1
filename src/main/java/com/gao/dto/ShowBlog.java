@@ -36,6 +36,7 @@ public class ShowBlog {
     private boolean shareStatement;
     private boolean appreciation;
     private boolean commentabled;
+    private Date createTime;
     private Date updateTime;
     private Integer views;
     

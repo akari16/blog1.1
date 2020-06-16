@@ -72,7 +72,7 @@
     <select id="getBlogById" resultType="com.gao.dto.ShowBlog" >
         select b.id,b.published,b.flag,b.title,b.content,b.type_id,
          b.tag_ids,b.first_picture,b.description,b.recommend,b.share_statement,
-         b.appreciation,b.commentabled from blog.t_blog b  where  b.id = #{id};
+         b.appreciation,b.commentabled,b.update_time,u.nickname, u.avatar from blog.t_blog b,blog.t_user u where  b.id = #{id};
     </select>
 
     <update id="updateBlog" parameterType="com.gao.dto.ShowBlog">
