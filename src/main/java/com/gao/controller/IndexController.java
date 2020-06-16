@@ -4,6 +4,7 @@ import com.gao.dto.DetailedBlog;
 import com.gao.dto.FirstPageBlog;
 import com.gao.dto.RecommendBlog;
 import com.gao.dto.ShowBlog;
+import com.gao.exception.NotFountException;
 import com.gao.pojo.Comment;
 import com.gao.pojo.Tag;
 import com.gao.pojo.Type;
@@ -11,6 +12,7 @@ import com.gao.service.BlogService;
 import com.gao.service.CommentService;
 import com.gao.service.TagService;
 import com.gao.service.TypeService;
+import com.gao.util.MarkdownUtils;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.page.PageMethod;
 
@@ -92,10 +94,16 @@ public class IndexController {
 
 	@GetMapping("/blog/{id}")
 	public String blog(@PathVariable Long id, Model model) {
-		ShowBlog detailedBlog = blogService.getBlogById(id);
+		ShowBlog showBlog = blogService.getBlogById(id);
+		System.out.println(showBlog);
 		List<Comment> comments = commentService.listCommentByBlogId(id);
 		model.addAttribute("comments", comments);
-		model.addAttribute("blog", detailedBlog);
+		if (showBlog == null) {
+			throw new NotFountException("该博客不存在");
+		}
+		String content = showBlog.getContent();
+		showBlog.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
+		model.addAttribute("blog", showBlog);
 		return "blog";
 	}
 
@@ -109,11 +117,6 @@ public class IndexController {
 		try {
 			// 2.根据时间戳创建新的文件名，这样即便是第二次上传相同名称的文件，也不会把第一次的文件覆盖了
 			String fileName = file.getOriginalFilename();
-			System.out.println(fileName);
-			System.out.println(File.separator);
-			System.out.println(req.getServletContext());
-			System.out.println(req.getServletContext().getRealPath(""));
-			System.out.println("111" + System.getProperty("user.dir"));
 			// 3.通过req.getServletContext().getRealPath("") 获取当前项目的真实路径，然后拼接前面的文件名
 			String destFileName = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\upload\\"
 					+ fileName;
@@ -123,11 +126,10 @@ public class IndexController {
 			// 5.把浏览器上传的文件复制到希望的位置
 			file.transferTo(destFile);
 			// 6.把文件名放在model里，以便后续显示用
-			System.out.println(destFileName);
 			m.addAttribute("fileName", destFileName);
 			jsonObject.put("success", 1);
 			jsonObject.put("message", "上传成功");
-			jsonObject.put("url", "\\src\\main\\resources\\static\\upload\\" + fileName);
+			jsonObject.put("url", "/upload/" + fileName);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

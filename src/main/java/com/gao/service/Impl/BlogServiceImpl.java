@@ -22,6 +22,7 @@ public class BlogServiceImpl implements BlogService {
 
 	@Override
 	public ShowBlog getBlogById(Long id) {
+
 		return blogDao.getBlogById(id);
 	}
 
@@ -95,15 +96,14 @@ public class BlogServiceImpl implements BlogService {
 
 	@Override
 	public DetailedBlog getDetailedBlog(Long id) {
-		System.out.println(id);
-		DetailedBlog detailedBlog = blogDao.getDetailedBlog(id);
-		ShowBlog showBlog = blogDao.getBlogById(id);
-		if (showBlog == null) {
-			throw new NotFountException("该博客不存在");
-		}
-		String content = showBlog.getContent();
-		detailedBlog.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
-		return detailedBlog;
+//		DetailedBlog detailedBlog = blogDao.getDetailedBlog(id);
+//		System.out.println(detailedBlog);
+//		if (detailedBlog == null) {
+//			throw new NotFountException("该博客不存在");
+//		}
+//		String content = detailedBlog.getContent();
+//		detailedBlog.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
+		return blogDao.getDetailedBlog(id);
 	}
 
 	@Override

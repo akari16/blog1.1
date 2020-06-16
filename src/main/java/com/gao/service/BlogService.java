@@ -7,6 +7,8 @@ import java.util.List;
 public interface BlogService {
 
     ShowBlog getBlogById(Long id);
+    
+    DetailedBlog getDetailedBlog(Long id);
 
     List<BlogQuery> getAllBlog();
 
@@ -26,8 +28,6 @@ public interface BlogService {
     List<RecommendBlog> getRecommendedBlog();
 
     List<FirstPageBlog> getSearchBlog(String query);
-
-    DetailedBlog getDetailedBlog(Long id);
 
     //根据TypeId获取博客列表，在分类页进行的操作
     List<FirstPageBlog> getByTypeId(Long typeId);
