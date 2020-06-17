@@ -96,11 +96,11 @@
                         <div class="ui images">
                             <div class="image">
                                 <!--rounded bordered 是边线和圆角-->
-                                <img class="ui image rounded bordered" th:src="@{/image/微信.png}" src="../static/image/支付宝.jpg" style="width: 120px">
+                                <img class="ui image rounded bordered" th:src="@{/image/wechat-pay.jpg}" src="../static/image/支付宝.jpg" style="width: 120px">
                             </div>
                             <div class="image">
                                 <!--rounded bordered 是边线和圆角-->
-                                <img class="ui image rounded bordered" th:src="@{/image/支付宝.jpg}" src="../static/image/微信.png" style="width: 120px">
+                                <img class="ui image rounded bordered" th:src="@{/image/支付宝.jpg}" src="../static/image/wechat-pay.jpg" style="width: 120px">
                             </div>
                         </div>
                     </div>
@@ -268,7 +268,7 @@
     $("#reward").popup({
         popup : $(".pay"),
         on: 'click',
-        position : 'bottom center'
+        position : 'bottom center',
     });
 
     tocbot.init({

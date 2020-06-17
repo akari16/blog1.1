@@ -6,6 +6,6 @@
 
     <select id="queryByUsernameAndPassword" resultType="com.gao.pojo.User">
         select * from blog.t_user
-        where username = #{username};
+        where username = #{username}
     </select>
 </mapper>

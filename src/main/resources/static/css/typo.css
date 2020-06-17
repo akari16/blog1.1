@@ -4,7 +4,6 @@
   font-size: 16px;
   font-weight: 300;
   line-height: 1.8;
-  text-align: justify;
 }
 
 /* 重设 HTML5 标签, IE 需要在 js 中 createElement(TAG) */
