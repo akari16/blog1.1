@@ -52,6 +52,6 @@ public class CommentController {
             comment.setParentCommentId(comment.getParentComment().getId());
         }
         commentService.saveComment(comment);
-        return "redirect:/comments/" + blogId;
+        return "redirect:/blog/" + blogId;
     }
 }

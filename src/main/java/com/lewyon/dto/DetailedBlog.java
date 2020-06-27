@@ -36,7 +36,7 @@ public class DetailedBlog {
     private boolean shareStatement;
     private boolean appreciation;
     private boolean commentabled;
-    private Date update_time;
+    private Date updateTime;
     private Integer views;
     
     private List<Tag> tags = new ArrayList<>();
