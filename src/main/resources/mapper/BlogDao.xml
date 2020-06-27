@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gao.dao.BlogDao">
+<mapper namespace="com.lewyon.dao.BlogDao">
 
-    <resultMap id="User" type="com.gao.pojo.User">
+    <resultMap id="User" type="com.lewyon.pojo.User">
         <id property="id" column="id"/>
         <result property="nickname" column="nickname"/>
         <result property="username" column="username"/>
@@ -12,13 +12,13 @@
         <result property="avatar" column="avatar"/>
     </resultMap>
 
-    <resultMap id="blog" type="com.gao.dto.BlogQuery">
+    <resultMap id="blog" type="com.lewyon.dto.BlogQuery">
         <id property="id" column="id"/>
         <result property="title" column="title"/>
         <result property="updateTime" column="update_time"/>
         <result property="recommend" column="recommend"/>
         <result property="typeId" column="type_id"/>
-        <association property="type" javaType="com.gao.pojo.Type">
+        <association property="type" javaType="com.lewyon.pojo.Type">
             <id property="id" column="id"/>
             <result property="name" column="name"/>
         </association>
@@ -36,7 +36,7 @@
         delete from blog.t_blog_tags where blog_id = #{blogId}
     </delete>
 
-    <insert id="saveBlog" parameterType="com.gao.pojo.Blog">
+    <insert id="saveBlog" parameterType="com.lewyon.pojo.Blog">
         insert into blog.t_blog (id,title, content, first_picture, flag,
         views, appreciation, share_statement, commentabled,published,
         recommend, create_time, update_time, type_id,tag_ids, user_id, description)
@@ -45,11 +45,11 @@
         #{updateTime},#{typeId},#{tagIds},#{userId},#{description});
     </insert>
 
-    <insert id="saveBlogAndTag" parameterType="com.gao.dto.BlogAndTag">
+    <insert id="saveBlogAndTag" parameterType="com.lewyon.dto.BlogAndTag">
         insert into blog.t_blog_tags (tag_id, blog_id) values (#{tagId},#{blogId});
     </insert>
 
-    <select id="searchByTitleOrTypeOrRecommend" parameterType="com.gao.dto.SearchBlog" resultMap="blog">
+    <select id="searchByTitleOrTypeOrRecommend" parameterType="com.lewyon.dto.SearchBlog" resultMap="blog">
         <bind name="pattern" value="'%' + title + '%'" />
         select b.id,b.title,b.update_time,b.recommend,b.type_id,t.id,t.name from blog.t_blog b ,blog.t_type t
         <where>
@@ -69,13 +69,13 @@
     </select>
 
 
-    <select id="getBlogById" resultType="com.gao.dto.ShowBlog" >
+    <select id="getBlogById" resultType="com.lewyon.dto.ShowBlog" >
         select b.id,b.published,b.flag,b.title,b.content,b.type_id,b.views,
          b.tag_ids,b.first_picture,b.description,b.recommend,b.share_statement,
          b.appreciation,b.commentabled,b.update_time,u.nickname,u.avatar from blog.t_blog b,blog.t_user u where  b.id = #{id}
     </select>
 
-    <update id="updateBlog" parameterType="com.gao.dto.ShowBlog">
+    <update id="updateBlog" parameterType="com.lewyon.dto.ShowBlog">
         update blog.t_blog set published = #{published},flag = #{flag} ,
         title = #{title}, content = #{content}, type_id = #{typeId}, tag_ids = #{tagIds},
         first_picture = #{firstPicture} , description = #{description} , recommend = #{recommend} ,
@@ -84,7 +84,7 @@
     </update>
     
 
-    <resultMap id="firstPageBlog" type="com.gao.dto.FirstPageBlog">
+    <resultMap id="firstPageBlog" type="com.lewyon.dto.FirstPageBlog">
         <id property="id" column="id"/>
         <result property="title" column="title"/>
         <result property="firstPicture" column="first_picture"/>
@@ -106,7 +106,7 @@
         where b.type_id = t.id and  u.id = b.user_id order by b.update_time desc
     </select>
 
-    <select id="getAllRecommendBlog" resultType="com.gao.dto.RecommendBlog">
+    <select id="getAllRecommendBlog" resultType="com.lewyon.dto.RecommendBlog">
         select id,title,recommend from blog.t_blog;
     </select>
 
@@ -121,7 +121,7 @@
         order by b.update_time desc
     </select>
 
-    <resultMap id="detailedBlog" type="com.gao.dto.DetailedBlog">
+    <resultMap id="detailedBlog" type="com.lewyon.dto.DetailedBlog">
         <id property="id" column="bid"/>
         <result property="firstPicture" column="first_picture"/>
         <result property="flag" column="flag"/>
@@ -134,7 +134,7 @@
         <result property="appreciation" column="appreciation"/>
         <result property="nickname" column="nickname"/>
         <result property="avatar" column="avatar"/>
-        <collection property="tags" ofType="com.gao.pojo.Tag">
+        <collection property="tags" ofType="com.lewyon.pojo.Tag">
             <id property="id" column="tid"/>
             <result property="name" column="name"/>
         </collection>
@@ -155,7 +155,7 @@
         where b.type_id = t.id and u.id = b.user_id and b.type_id = #{typeId} order by b.update_time desc
     </select>
 
-    <select id="getByTagId" resultType="com.gao.dto.FirstPageBlog">
+    <select id="getByTagId" resultType="com.lewyon.dto.FirstPageBlog">
         select b.id,b.title,b.first_picture,b.views,b.update_time,b.description,
         t.name,
         u.nickname,u.avatar

@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gao.dao.UserDao">
+<mapper namespace="com.lewyon.dao.UserDao">
 
-    <select id="queryByUsernameAndPassword" resultType="com.gao.pojo.User">
+    <select id="queryByUsernameAndPassword" resultType="com.lewyon.pojo.User">
         select * from blog.t_user
         where username = #{username}
     </select>
