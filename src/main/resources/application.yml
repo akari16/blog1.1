@@ -1,3 +1,5 @@
+swagger:
+  base-package: com.itmayeidu.api
 
 spring:
   jpa:

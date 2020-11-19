@@ -144,5 +144,15 @@ public class IndexController {
 		System.out.println(jsonObject.toString());
 		return jsonObject.toString();
 	}
+	
+	@GetMapping("/link")
+    public String link() {
+        return "link";
+    }
+	
+	@GetMapping("/production")
+    public String production() {
+        return "production";
+    }
 
 }
