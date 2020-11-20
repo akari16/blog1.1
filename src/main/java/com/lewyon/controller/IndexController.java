@@ -144,15 +144,27 @@ public class IndexController {
 		System.out.println(jsonObject.toString());
 		return jsonObject.toString();
 	}
-	
+
 	@GetMapping("/link")
-    public String link() {
-        return "link";
-    }
-	
+	public String link(Model model) {
+		List<Tag> allTag = tagService.getAllTag();
+		List<RecommendBlog> recommendedBlog = blogService.getRecommendedBlog();
+		List<Type> allType = typeService.getAllType();
+		model.addAttribute("tags", allTag);
+		model.addAttribute("types", allType);
+		model.addAttribute("recommendedBlogs", recommendedBlog);
+		return "link";
+	}
+
 	@GetMapping("/production")
-    public String production() {
-        return "production";
-    }
+	public String production(Model model) {
+		List<Tag> allTag = tagService.getAllTag();
+		List<RecommendBlog> recommendedBlog = blogService.getRecommendedBlog();
+		List<Type> allType = typeService.getAllType();
+		model.addAttribute("tags", allTag);
+		model.addAttribute("types", allType);
+		model.addAttribute("recommendedBlogs", recommendedBlog);
+		return "production";
+	}
 
 }

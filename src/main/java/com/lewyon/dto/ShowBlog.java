@@ -31,6 +31,7 @@ public class ShowBlog {
     private Long typeId;
     private String tagIds;
     private String firstPicture;
+    private String typeName;
     private String description;
     private boolean recommend;
     private boolean shareStatement;
